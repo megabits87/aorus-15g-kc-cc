@@ -1,0 +1,103 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_VERSION: "8.0.x"
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+
+jobs:
+  linux:
+    name: build + test (ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: NuGet cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/Directory.Packages.props', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore
+        run: dotnet restore Gbt.sln
+
+      - name: Build
+        run: dotnet build Gbt.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test tests/Gbt.Hardware.Tests/Gbt.Hardware.Tests.csproj -c Release --no-build --logger "trx;LogFileName=tests.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-linux
+          path: "**/*.trx"
+
+  windows:
+    name: build + test + publish (windows)
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: NuGet cache
+        uses: actions/cache@v4
+        with:
+          path: ~\.nuget\packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/Directory.Packages.props', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore
+        run: dotnet restore Gbt.sln
+
+      - name: Build
+        run: dotnet build Gbt.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test tests/Gbt.Hardware.Tests/Gbt.Hardware.Tests.csproj -c Release --no-build --logger "trx;LogFileName=tests.trx"
+
+      - name: Publish Gbt.Service (win-x64, self-contained)
+        run: dotnet publish src/Gbt.Service/Gbt.Service.csproj -c Release -r win-x64 --self-contained -o artifacts/Gbt.Service
+
+      - name: Publish Gbt.Tools.DumpEc (win-x64, self-contained)
+        run: dotnet publish src/Gbt.Tools.DumpEc/Gbt.Tools.DumpEc.csproj -c Release -r win-x64 --self-contained -o artifacts/Gbt.Tools.DumpEc
+
+      - name: Upload publish artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-windows
+          path: artifacts/
+          if-no-files-found: warn
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-windows
+          path: "**/*.trx"

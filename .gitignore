@@ -1,0 +1,45 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/launch.json
+.vscode/tasks.json
+*.swp
+*.tmp
+*.bak
+
+# Build output
+publish/
+artifacts/
+out/
+TestResults/
+*.trx
+*.coverage
+coverage*.xml
+coverage*.json
+
+# Packaging
+*.msi
+*.msm
+*.wixpdb
+*.wixobj
+installer/.wixobj/
+
+# Native drivers (bundled, but never check in unsigned variants)
+*.sys.bak
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+nuget.log
+
+# Local user configs
+local.settings.json
+appsettings.Local.json

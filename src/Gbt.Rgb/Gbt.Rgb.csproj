@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Gbt.Rgb</RootNamespace>
+    <AssemblyName>Gbt.Rgb</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>AORUS Fusion RGB keyboard (USB 1044:7a3c) HID protocol client. Phase 0 ships the IRgbController contract and a no-op fallback; the HID backend lands in Phase 2.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gbt.Common\Gbt.Common.csproj" />
+  </ItemGroup>
+
+</Project>

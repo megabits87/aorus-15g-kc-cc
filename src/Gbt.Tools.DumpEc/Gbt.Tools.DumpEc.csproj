@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Gbt.Tools.DumpEc</RootNamespace>
+    <AssemblyName>Gbt.Tools.DumpEc</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <Description>Read-only diagnostic dumper for the AORUS 15G KC: EC registers, MSR 0x610, GBT WMI classes, LibreHardwareMonitor sensors. Writes are gated behind an explicit consent token.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gbt.Common\Gbt.Common.csproj" />
+    <ProjectReference Include="..\Gbt.Hardware\Gbt.Hardware.csproj" />
+  </ItemGroup>
+
+</Project>

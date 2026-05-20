@@ -1,0 +1,65 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{md,yml,yaml,json,xml,xaml,csproj,props,targets,sln}]
+indent_size = 2
+
+[*.{ps1,psm1}]
+end_of_line = crlf
+
+[*.cs]
+# Language conventions ------------------------------------------------------
+
+# var preferences: prefer explicit types for built-ins, var when apparent
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = true:silent
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_properties = true:suggestion
+
+# Pattern matching
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+
+# Null
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+
+# this. preferences
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+# Modifier preferences
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:suggestion
+
+# Using statements
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Formatting ----------------------------------------------------------------
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+
+# Diagnostics ---------------------------------------------------------------
+dotnet_diagnostic.CA1707.severity = none  # underscore in identifiers (allowed in tests)
+dotnet_diagnostic.CA2007.severity = none  # ConfigureAwait — desktop app, not needed
+dotnet_diagnostic.IDE0058.severity = none # ignore return values (acceptable in tests)

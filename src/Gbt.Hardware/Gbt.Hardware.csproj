@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Gbt.Hardware</RootNamespace>
+    <AssemblyName>Gbt.Hardware</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>WMI, Embedded Controller and sensor abstractions for the AORUS 15G KC.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" />
+    <PackageReference Include="LibreHardwareMonitorLib" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gbt.Common\Gbt.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Gbt.Hardware.Tests" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Gbt.Service</RootNamespace>
+    <AssemblyName>Gbt.Service</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <UseWindowsService>true</UseWindowsService>
+    <IsPackable>false</IsPackable>
+    <UserSecretsId>gbt-service-dev</UserSecretsId>
+    <Description>Windows service hosting hardware control, profile engine and IPC for the AORUS 15G KC Open Control Center.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="Serilog.Sinks.EventLog" />
+    <PackageReference Include="StreamJsonRpc" />
+    <PackageReference Include="System.IO.Pipes.AccessControl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gbt.Common\Gbt.Common.csproj" />
+    <ProjectReference Include="..\Gbt.Hardware\Gbt.Hardware.csproj" />
+    <ProjectReference Include="..\Gbt.Rgb\Gbt.Rgb.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
