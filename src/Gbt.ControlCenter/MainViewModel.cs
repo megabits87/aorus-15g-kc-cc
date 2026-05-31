@@ -123,6 +123,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IAsyncDisposable
         GpuTemp = FormatTemp(snap.GpuC);
         CpuTempValue = double.IsNaN(snap.CpuPackageC) ? 0 : Math.Clamp(snap.CpuPackageC, 0, 100);
         GpuTempValue = double.IsNaN(snap.GpuC) ? 0 : Math.Clamp(snap.GpuC, 0, 100);
+        TemperaturesSampled?.Invoke(CpuTempValue, GpuTempValue);
         CpuFan = $"{snap.CpuFanRpm} rpm";
         GpuFan = $"{snap.GpuFanRpm} rpm";
         Battery = $"{snap.BatteryPercent}% ({(snap.BatteryCharging ? "charging" : "on battery")})";
@@ -246,6 +247,9 @@ public sealed class MainViewModel : INotifyPropertyChanged, IAsyncDisposable
         await _client.DisposeAsync().ConfigureAwait(false);
         _cts.Dispose();
     }
+
+    /// <summary>Raised once per sensor snapshot with CPU/GPU temperatures (clamped 0-100) for the history chart.</summary>
+    public event Action<double, double>? TemperaturesSampled;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
