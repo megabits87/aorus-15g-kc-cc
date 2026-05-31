@@ -33,10 +33,7 @@ public sealed class HeartbeatWorker : BackgroundService
                 break;
             }
 
-            if (_logger.IsEnabled(LogLevel.Debug))
-            {
-                _logger.LogDebug("Heartbeat at {Now:O}", DateTimeOffset.UtcNow);
-            }
+            _logger.LogInformation("Heartbeat at {Now:O}", DateTimeOffset.UtcNow);
         }
         _logger.LogInformation("Heartbeat worker stopping");
     }

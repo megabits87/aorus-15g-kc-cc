@@ -23,6 +23,7 @@ public sealed class JsonRpcServer : BackgroundService
     private readonly IGbtService _impl;
     private readonly ILogger<JsonRpcServer> _logger;
     private readonly IpcOptions _options;
+    private int _activeClients;
 
     public JsonRpcServer(
         IGbtService impl,
@@ -76,10 +77,12 @@ public sealed class JsonRpcServer : BackgroundService
 
     private async Task HandleClientAsync(NamedPipeServerStream pipe, CancellationToken stoppingToken)
     {
+        var active = Interlocked.Increment(ref _activeClients);
+        _logger.LogInformation("Control Center client connected ({Active} active)", active);
         try
         {
             using var rpc = JsonRpc.Attach(pipe, _impl);
-            await using var _ = stoppingToken.Register(() => rpc.Dispose());
+            using var _ = stoppingToken.Register(() => rpc.Dispose());
             await rpc.Completion.ConfigureAwait(false);
         }
         catch (OperationCanceledException)
@@ -92,6 +95,8 @@ public sealed class JsonRpcServer : BackgroundService
         }
         finally
         {
+            var remaining = Interlocked.Decrement(ref _activeClients);
+            _logger.LogInformation("Control Center client disconnected ({Active} active)", remaining);
             await pipe.DisposeAsync().ConfigureAwait(false);
         }
     }

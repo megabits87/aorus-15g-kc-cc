@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Gbt.Common\Gbt.Common.csproj" />
     <ProjectReference Include="..\..\src\Gbt.Hardware\Gbt.Hardware.csproj" />
+    <ProjectReference Include="..\..\src\Gbt.Service\Gbt.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

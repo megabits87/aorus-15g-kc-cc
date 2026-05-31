@@ -9,6 +9,9 @@
     <IsPackable>false</IsPackable>
     <UserSecretsId>gbt-service-dev</UserSecretsId>
     <Description>Windows service hosting hardware control, profile engine and IPC for the AORUS 15G KC Open Control Center.</Description>
+    <!-- The GBT WMI hotkey handler is an async-void event handler by contract (exceptions are caught
+         internally), which the vs-threading analyzers flag; suppress those rules for this project. -->
+    <NoWarn>$(NoWarn);VSTHRD100;VSTHRD101;VSTHRD103</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Gbt.ControlCenter</RootNamespace>
+    <AssemblyName>Gbt.ControlCenter</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>WPF Control Center for the AORUS 15G KC: live sensors, performance modes, fan and power control over the Gbt.Service named-pipe IPC. Runs as the logged-in user.</Description>
+    <!-- These vs-threading / CA rules fight standard WPF plumbing (ICommand.Execute is void by
+         contract, Loaded/Closed are void event handlers, the Window owns its view-model). They are
+         downgraded from error to suppressed for this UI project only. -->
+    <NoWarn>$(NoWarn);VSTHRD100;VSTHRD101;VSTHRD103;CA1001</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StreamJsonRpc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gbt.Common\Gbt.Common.csproj" />
+  </ItemGroup>
+
+</Project>

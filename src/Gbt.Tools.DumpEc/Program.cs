@@ -81,7 +81,15 @@ internal static class Program
                     p.Watch = true;
                     if (i + 1 < args.Length && int.TryParse(args[i + 1], out var ms))
                     {
-                        p.WatchMs = ms;
+                        if (ms <= 0)
+                        {
+                            WriteRed($"--watch interval must be a positive number of milliseconds (got {ms}).");
+                            p.ShowHelp = true;
+                        }
+                        else
+                        {
+                            p.WatchMs = ms;
+                        }
                         i++;
                     }
                     break;
